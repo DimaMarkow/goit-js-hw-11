@@ -16,27 +16,25 @@ const getItemTemplate = ({
   comments,
   downloads,
 }) => {
-  const str = `<div class="photo-card">
-        <img src=${webformatURL} alt=${tags} loading="lazy" />
-        <div class="info">
-          <p class="info-item">
-            <b>Likes</b>
-            <p>${likes}</p>
-          </p>
-          <p class="info-item">
-            <b>Views</b>
-            <p>${views}</p>
-          </p>
-          <p class="info-item">
-            <b>Comments</b>
-            <p>${comments}</p>
-          </p>
-          <p class="info-item">
-            <b>Downloads</b>
-            <p>${downloads}</p>
-          </p>
-        </div>
-      </div>`;
+  const str = `<li class="item">
+                <div class="photo-card">
+                  <img src=${webformatURL} alt=${tags} loading="lazy" width="220" height="140" class="items-image"/>
+                  <div class="info">
+                    <p class="info-item">
+                      <b>Likes</b><br>${likes}
+                    </p>
+                    <p class="info-item">
+                      <b>Views</b><br>${views}
+                    </p>
+                    <p class="info-item">
+                      <b>Comments</b><br>${comments}
+                    </p>
+                    <p class="info-item">
+                      <b>Downloads</b><br>${downloads}     
+                    </p>
+                  </div>
+                </div>
+               </li>`;
   return str;
 };
 

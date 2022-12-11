@@ -7,45 +7,43 @@
     <title>Homework 11</title>
   </head>
   <body>
-    <form class="search-form" id="search-form">
-      <input
-        type="text"
-        name="searchQuery"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-      <button type="submit">Search</button>
-    </form>
+    <section class="form-section">
+      <form class="search-form" id="search-form">
+        <input
+          type="text"
+          name="searchQuery"
+          autocomplete="off"
+          placeholder="Search images..."
+        />
+        <button type="submit">Search</button>
+      </form>
+    </section>
 
-    <div class="gallery">
-      <!-- Карточки изображений -->
-      <ul class="items-list">
-        <!-- <div class="photo-card">
-        <img src="" alt="" loading="lazy" />
-        <div class="info">
-          <p class="info-item">
-            <b>Likes</b>
-          </p>
-          <p class="info-item">
-            <b>Views</b>
-          </p>
-          <p class="info-item">
-            <b>Comments</b>
-          </p>
-          <p class="info-item">
-            <b>Downloads</b>
-          </p>
-        </div>
-      </div> -->
-      </ul>
-      <!-- ------------------------------ -->
-    </div>
+    <section class="section">
+      <!-- <div class="container"> -->
+      <div class="gallery">
+        <!-- Карточки изображений -->
+        <ul class="items-list">
+          <!-- <li class="item">
+            <div class="photo-card">
+              <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+              <div class="info">
+                <p class="info-item"><b>Likes</b>${likes}</p>
+                <p class="info-item"><b>Views</b>${views}</p>
+                <p class="info-item"><b>Comments</b>${comments}</p>
+                <p class="info-item"><b>Downloads</b>${downloads}</p>
+              </div>
+            </div>
+          </li> -->
+        </ul>
+        <!-- ------------------------------ -->
+      </div>
+      <!-- </div> -->
+    </section>
 
-    <button type="button" class="load-more">Load more</button>
-
-    <!-- <input type="text" id="search-box" />
-    <ul class="country-list"></ul>
-    <div class="country-info"></div> -->
+    <section class="button-section">
+      <button type="button" class="load-more">Load more</button>
+    </section>
 
     <script src="index.js" type="module"></script>
   </body>
