@@ -1,11 +1,12 @@
+import axios from 'axios';
 import './css/styles.css';
+import Notiflix from 'notiflix';
 
 var _ = require('lodash');
-import Notiflix from 'notiflix';
 
 // user_id: 31955836;
 
-import fetchPictures from './fetchPictures.js';
+import getPictures from './fetchPictures.js';
 
 const getItemTemplate = ({
   webformatURL,
@@ -72,12 +73,12 @@ function handleSubmit(event) {
     return;
   }
 
-  fetchPictures(`${URL}&q=${query}${PARAMETERS}&page=${pageNumber}`)
-    .then(items => {
-      numberOfPages = Math.ceil(items.totalHits / 40);
+  getPictures(`${URL}&q=${query}${PARAMETERS}&page=${pageNumber}`)
+    .then(({ data }) => {
+      numberOfPages = Math.ceil(data.totalHits / 40);
       console.log(numberOfPages);
 
-      picts = items.hits;
+      picts = data.hits;
       console.log(picts.length);
 
       if (picts.length === 0) {
@@ -102,9 +103,9 @@ function render() {
 }
 
 function addPictures() {
-  fetchPictures(`${URL}&q=${query}${PARAMETERS}&page=${pageNumber}`)
-    .then(items => {
-      picts = items.hits;
+  getPictures(`${URL}&q=${query}${PARAMETERS}&page=${pageNumber}`)
+    .then(({ data }) => {
+      picts = data.hits;
       console.log(picts);
       render();
       pageNumber += 1;
