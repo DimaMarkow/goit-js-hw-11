@@ -1,9 +1,5 @@
 import Notiflix from 'notiflix';
 
-// const refs = {
-//   list: document.querySelector(`.country-list`),
-// };
-
 export default function fetchPictures(name) {
   return fetch(name).then(response => {
     if (response.ok) {

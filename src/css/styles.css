@@ -134,3 +134,7 @@ img {
   text-align: center;
   letter-spacing: 0.03em;
 }
+
+.is-hidden {
+  display: none;
+}

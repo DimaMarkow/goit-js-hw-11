@@ -38,86 +38,85 @@ const getItemTemplate = ({
   return str;
 };
 
-const DEBOUNCE_DELAY = 300;
 const URL = `https://pixabay.com/api/?key=31955836-4f23a30b6c1dc45c2c659779e`;
-const PARAMETERS = `&image_type=photo&orientation=horizontal&safesearch=true`;
+const PARAMETERS = `&image_type=photo&orientation=horizontal&safesearch=true&per_page=40`;
 
 const refs = {
   form: document.querySelector(`.search-form`),
   list: document.querySelector(`.items-list`),
+  btn: document.querySelector(`.load-more`),
 };
 
+let query = ``;
 let picts = [];
+let pageNumber = 1;
+let numberOfPages = 1;
 
 refs.form.addEventListener(`submit`, handleSubmit);
+refs.btn.addEventListener(`click`, addPictures);
+
+// refs.btn.setAttribute(`disabled`, true);
+refs.btn.classList.add('is-hidden');
 
 function handleSubmit(event) {
   event.preventDefault();
 
-  const query = event.currentTarget.elements.searchQuery.value.trim();
+  query = event.currentTarget.elements.searchQuery.value.trim();
   console.log(query);
 
+  refs.list.innerHTML = ``;
+  pageNumber = 1;
+
   if (!query) {
-    refs.list.innerHTML = ``;
+    refs.btn.classList.add('is-hidden');
     return;
   }
 
-  fetchPictures(`${URL}&q=${query}${PARAMETERS}`)
+  fetchPictures(`${URL}&q=${query}${PARAMETERS}&page=${pageNumber}`)
     .then(items => {
+      numberOfPages = Math.ceil(items.totalHits / 40);
+      console.log(numberOfPages);
+
       picts = items.hits;
-      console.log(picts);
+      console.log(picts.length);
+
+      if (picts.length === 0) {
+        refs.btn.classList.add('is-hidden');
+        Notiflix.Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+        return;
+      }
       render();
+      pageNumber += 1;
+      // refs.btn.removeAttribute(`disabled`);
+      refs.btn.classList.remove('is-hidden');
     })
     .catch(error => console.log(error));
 }
 
 function render() {
-  // const amountOfCountryes = items.length;
   const list = picts.map(pict => getItemTemplate(pict)).join(``);
-  console.log(list);
-  refs.list.innerHTML = list;
+  refs.list.insertAdjacentHTML('beforeend', list);
   return;
 }
 
-// let items = [];
+function addPictures() {
+  fetchPictures(`${URL}&q=${query}${PARAMETERS}&page=${pageNumber}`)
+    .then(items => {
+      picts = items.hits;
+      console.log(picts);
+      render();
+      pageNumber += 1;
+    })
+    .catch(error => console.log(error));
 
-// refs.form.addEventListener(`input`, _.debounce(onInput, DEBOUNCE_DELAY));
-
-// function onInput(event) {
-//   event.preventDefault();
-//   const query = event.target.value.trim();
-//   console.log(query);
-
-//   if (!query) {
-//     refs.list.innerHTML = ``;
-//     return;
-//   }
-
-//   fetchCountries(`${URL}${query}${PARAMETERS}`)
-//     .then(countryes => {
-//       items = countryes;
-//       render();
-//     })
-//     .catch(error => console.log(error));
-// }
-
-// function render() {
-//   const amountOfCountryes = items.length;
-//   if (amountOfCountryes > 10) {
-//     refs.list.innerHTML = ``;
-//     Notiflix.Notify.info(
-//       'Too many matches found. Please enter a more specific name.'
-//     );
-//     return;
-//   }
-//   if (amountOfCountryes > 1 && amountOfCountryes <= 10) {
-//     const list = items.map(item => getItemTemplateSmall(item)).join(``);
-//     refs.list.innerHTML = list;
-//     return;
-//   }
-//   if (amountOfCountryes === 1) {
-//     const list = items.map(item => getItemTemplateFull(item)).join(``);
-//     refs.list.innerHTML = list;
-//     return;
-//   }
-// }
+  if (pageNumber >= numberOfPages) {
+    Notiflix.Notify.info(
+      "We're sorry, but you've reached the end of search results."
+    );
+    // refs.btn.setAttribute(`disabled`, true);
+    refs.btn.classList.add('is-hidden');
+    return;
+  }
+}
