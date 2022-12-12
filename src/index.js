@@ -88,6 +88,9 @@ function handleSubmit(event) {
         );
         return;
       }
+      // const notyString = data.totalHits;
+      // console.log(`кол-во изображений ${notyString}`);
+      // Notiflix.Notify.info('Hooray! We found ${notyString} images.');
       render();
       pageNumber += 1;
       // refs.btn.removeAttribute(`disabled`);
