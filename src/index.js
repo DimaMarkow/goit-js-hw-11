@@ -1,4 +1,5 @@
 import axios from 'axios';
+import SimpleLightbox from 'simplelightbox';
 import './css/styles.css';
 import Notiflix from 'notiflix';
 
@@ -17,25 +18,36 @@ const getItemTemplate = ({
   comments,
   downloads,
 }) => {
-  const str = `<li class="item">
-                <div class="photo-card">
-                  <img src=${webformatURL} alt=${tags} loading="lazy" width="220" height="140" class="items-image"/>
-                  <div class="info">
-                    <p class="info-item">
-                      <b>Likes</b><br>${likes}
-                    </p>
-                    <p class="info-item">
-                      <b>Views</b><br>${views}
-                    </p>
-                    <p class="info-item">
-                      <b>Comments</b><br>${comments}
-                    </p>
-                    <p class="info-item">
-                      <b>Downloads</b><br>${downloads}     
-                    </p>
+  // const str = `<li class="item">
+  //               <div class="photo-card">
+  //                 <img src=${webformatURL} alt=${tags} loading="lazy" width="220" height="140" class="items-image"/>
+  //                 <div class="info">
+  //                   <p class="info-item">
+  //                     <b>Likes</b><br>${likes}
+  //                   </p>
+  //                   <p class="info-item">
+  //                     <b>Views</b><br>${views}
+  //                   </p>
+  //                   <p class="info-item">
+  //                     <b>Comments</b><br>${comments}
+  //                   </p>
+  //                   <p class="info-item">
+  //                     <b>Downloads</b><br>${downloads}
+  //                   </p>
+  //                 </div>
+  //               </div>
+  //              </li>`;
+  const str = `<a class="gallery__item" href="${largeImageURL}">
+                  <div class="image-thumb">
+                    <img src="${webformatURL}" alt="${tags}" loading="lazy" width="220" height="140" class="items-image"/>
                   </div>
-                </div>
-               </li>`;
+                  <div class="info">
+                    <p class="info-item"><b>Likes</b><br>${likes}</p>
+                    <p class="info-item"><b>Views</b><br>${views}</p>
+                    <p class="info-item"><b>Comments</b><br>${comments}</p>
+                    <p class="info-item"><b>Downloads</b><br>${downloads}</p>
+                  </div>
+              </a>`;
   return str;
 };
 
@@ -44,7 +56,7 @@ const PARAMETERS = `&image_type=photo&orientation=horizontal&safesearch=true&per
 
 const refs = {
   form: document.querySelector(`.search-form`),
-  list: document.querySelector(`.items-list`),
+  list: document.querySelector(`.gallery`),
   btn: document.querySelector(`.load-more`),
 };
 
@@ -102,6 +114,7 @@ function handleSubmit(event) {
 function render() {
   const list = picts.map(pict => getItemTemplate(pict)).join(``);
   refs.list.insertAdjacentHTML('beforeend', list);
+  let gallery = new SimpleLightbox('.gallery a');
   return;
 }
 
